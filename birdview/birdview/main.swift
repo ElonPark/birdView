@@ -21,9 +21,9 @@ extension String {
         var text: String = ""
         
         do {
-            let path = URL(fileURLWithPath: "/Users/Nebula/Github/birdview/birdview/resource/")
+            let path = URL(fileURLWithPath: "/Users/Nebula/Github/birdView/birdview/birdview/resource/")
             let fileURL = path.appendingPathComponent(self).appendingPathExtension("txt")
-//            print(fileURL)
+
             text = try String(contentsOf: fileURL, encoding: .utf8)
             
         } catch {
@@ -147,7 +147,7 @@ class MatchCouples {
         
         let textArray = fileText
             .components(separatedBy: "\n")
-            .filter { !$0.isEmpty }
+            .filter { !$0.isEmpty } 
             .enumerated()
             .compactMap { Person(index: $0.offset, hobbys: $0.element.components(separatedBy: " ")) }
         
@@ -177,9 +177,59 @@ enum Config: String {
 // - MARK: START
 
 let file: Config = .debug
-let couple = MatchCouples(with: file.name())
-couple.timePrint(with: "시작")
-couple.startMatching()
+//let couple = MatchCouples(with: file.name())
+//couple.timePrint(with: "시작")
+//couple.startMatching()
 
+let startTime = Date()
+var people = [Person]()
 
+var couples = [
+    "A": [Int](),
+    "B": [Int](),
+    "C": [Int](),
+    "D": [Int](),
+    "E": [Int](),
+    "F": [Int](),
+    "G": [Int](),
+    "H": [Int](),
+    "I": [Int](),
+    "J": [Int](),
+    "K": [Int](),
+    "L": [Int](),
+    "M": [Int](),
+    "N": [Int](),
+    "O": [Int](),
+    "P": [Int](),
+    "Q": [Int](),
+    "R": [Int](),
+    "S": [Int](),
+    "T": [Int](),
+    "U": [Int](),
+    "V": [Int](),
+    "W": [Int](),
+    "X": [Int](),
+    "Y": [Int](),
+    "Z": [Int]()
+]
 
+let fileText = file.name().readTextFile()
+let data = fileText.components(separatedBy: "\n")
+
+for index in 0..<data.count {
+    guard !data[index].isEmpty else { continue }
+    
+    for hobby in data[index] {
+        guard !hobby.isEmpty else { continue }
+        guard let h = couples[hobby] else { continue }
+        
+        h.append(index + 1)
+    }
+}
+
+for (hobby, person) in couples {
+    print("\(hobby): \(person)\n")
+}
+
+let endTime = Date().timeIntervalSince(startTime)
+print("\n실행시간: \(endTime) seconds")
