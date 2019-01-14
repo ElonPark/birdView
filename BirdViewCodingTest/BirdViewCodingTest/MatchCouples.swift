@@ -40,12 +40,10 @@ class MatchCouples {
             guard couplesDic["\(other.index)-\(my.index)"] == nil else { continue }
             
             let count = matchCount(my.hobbys, and: other.hobbys)
-            if count > beforeCount {
-                beforeCount = count
-                
-                let couple = Couple(key1: my.index, key2: other.index, matchCount: count)
-                couplesDic["\(my.index)-\(other.index)"] = couple
-            }
+            guard count > beforeCount else { continue }
+            beforeCount = count
+            
+            couplesDic["\(my.index)-\(other.index)"] = Couple(key1: my.index, key2: other.index, matchCount: count)
         }
     }
     
@@ -56,10 +54,11 @@ class MatchCouples {
         let chunks = people.chunked(by: people.count / 8)
         
         for person in people {
-            for chunk in chunks {
+            DispatchQueue.concurrentPerform(iterations: chunks.count) { i in
+//            for chunk in chunks {
 //                dispathGroup.enter()
 //                queue.async {
-                    self.match(to: person, by: chunk)
+                    self.match(to: person, by: chunks[i])
 //                    dispathGroup.leave()
 //                }
             }
