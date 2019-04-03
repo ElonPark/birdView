@@ -10,10 +10,8 @@ import Foundation
 
 class MatchCouples {
     
-    var fileName: String = "testdata"
-    var couplesDic = [String : Couple]()
-    var beforeCount: Int = 0
-    
+    var fileName: String
+
     init(with fileName: String) {
         self.fileName = fileName
     }
@@ -27,59 +25,46 @@ class MatchCouples {
     }
     
     func matchCount(_ person1: [String], and person2: [String]) -> Int {
-       
         let intersection = Set(person1).intersection(Set(person2))
         
         return intersection.count
     }
     
-    
-    func match(to my: Person, by others: [Person]) {
-        for other in others {
-            guard my.index != other.index else { continue }
-            guard couplesDic["\(other.index)-\(my.index)"] == nil else { continue }
-            
-            let count = matchCount(my.hobbys, and: other.hobbys)
-            guard count > beforeCount else { continue }
-            beforeCount = count
-            
-            couplesDic["\(my.index)-\(other.index)"] = Couple(key1: my.index, key2: other.index, matchCount: count)
-        }
-    }
-    
-    
-    func matchingCouple(with people: [Person], completion: @escaping () -> Void) {
-//        let dispathGroup = DispatchGroup()
-//        let queue = DispatchQueue(label: "park.elon", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
-        let chunks = people.chunked(by: people.count / 8)
-        
-        for person in people {
-            DispatchQueue.concurrentPerform(iterations: chunks.count) { i in
-//            for chunk in chunks {
-//                dispathGroup.enter()
-//                queue.async {
-                    self.match(to: person, by: chunks[i])
-//                    dispathGroup.leave()
-//                }
+    func matchingCouple(with people: [Person]) -> [String : Int] {
+        var beforeCount = 0
+        var couplesDic = [String : Int]()
+        for i in 0..<people.count {
+            for j in 0..<people.count {
+                guard i != j else { continue }
+                guard couplesDic["\(people[j].index)-\(people[i].index)"] == nil else {
+                    continue
+                }
+                
+                let count = matchCount(people[i].hobbys, and: people[j].hobbys)
+                if count > beforeCount {
+                    beforeCount = count
+                    couplesDic = [String : Int]()
+                    couplesDic["\(people[i].index)-\(people[j].index)"] = count
+                    
+                } else if count == beforeCount {
+                    couplesDic["\(people[i].index)-\(people[j].index)"] = count
+                }
             }
         }
         
-//        dispathGroup.notify(queue: queue) {
-            completion()
-//        }
+        return couplesDic
     }
     
-    func printText(by couples: [Couple]) -> String {
+    func printText(by couples: [String : Int]) -> String {
         var printText: String = ""
-        var beforeCount: Int = 1
-        
+       
         for couple in couples {
-            if couple.matchCount > beforeCount {
-                beforeCount = couple.matchCount
-                printText = "\(couple.key1 + 1)-\(couple.key2 + 1)"
+            print(couple)
+            if printText.isEmpty {
+                printText = couple.key
                 
-            } else if couple.matchCount == beforeCount {
-                printText += ", \(couple.key1 + 1)-\(couple.key2 + 1)"
+            } else {
+                printText += ", " + couple.key
             }
         }
         
@@ -90,23 +75,26 @@ class MatchCouples {
         let startTime = Date()
         let fileText = fileName.readTextFile()
         
-        guard !fileText.isEmpty else { print("\(fileName).txt is empty"); return }
-        
-        let textArray = fileText
-            .components(separatedBy: "\n")
-            .filter { !$0.isEmpty }
-            .enumerated()
-            .compactMap { Person(index: $0.offset, hobbys: $0.element.components(separatedBy: " ")) }
-        
-        print("\(textArray.count)명\n")
-        
-        matchingCouple(with: textArray) {
-            let text = self.printText(by: self.couplesDic.values.sorted { $0.key1 < $1.key2 })
-            let endTime = Date().timeIntervalSince(startTime)
-            print(text)
-            print("\n실행시간: \(endTime) seconds")
-            self.timePrint(with: "\n종료")
+        guard !fileText.isEmpty else {
+            print("\(fileName).txt is empty")
+            return
         }
+      
+        var textArray = fileText.components(separatedBy: "\n")
+        var people = [Person]()
+        
+        for i in 0..<textArray.count {
+            guard !textArray[i].isEmpty else { continue }
+            let hobbys = textArray[i].components(separatedBy: " ")
+            let person = Person(index: i + 1, hobbys: hobbys)
+            people.append(person)
+        }
+        
+        let couplesDic = matchingCouple(with: people)
+        let text = printText(by: couplesDic)
+        let endTime = Date().timeIntervalSince(startTime)
+        print(text)
+        print("\n실행시간: \(endTime) seconds")
+        self.timePrint(with: "\n종료")
     }
 }
-

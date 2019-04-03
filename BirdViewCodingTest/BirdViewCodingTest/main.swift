@@ -36,15 +36,18 @@ enum Config: String {
 
 // - MARK: START
 
-let file: Config = .debug
-let couple = MatchCouples(with: file.name())
-couple.timePrint(with: "시작")
-couple.startMatching()
-
-while true {
-    print(couple)
-    sleep(500)
+func main() {
+    let file: Config = .release
+    let couple = MatchCouples(with: file.name())
+    couple.timePrint(with: "시작")
+    couple.startMatching()
 }
+main()
+
+//while true {
+//    print(couple)
+//    sleep(500)
+//}
 /*
 let startTime = Date()
 print("시작: \(startTime)")

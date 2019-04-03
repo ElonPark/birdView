@@ -21,7 +21,7 @@ extension String {
         var text: String = ""
         
         do {
-            let path = URL(fileURLWithPath: "/Users/Nebula/Github/birdView/BirdViewCodingTest/BirdViewCodingTest/resource/")
+            let path = URL(fileURLWithPath: "/Users/elon/Github/birdView/BirdViewCodingTest/BirdViewCodingTest/resource/")
             let fileURL = path.appendingPathComponent(self).appendingPathExtension("txt")
             
             text = try String(contentsOf: fileURL, encoding: .utf8)
