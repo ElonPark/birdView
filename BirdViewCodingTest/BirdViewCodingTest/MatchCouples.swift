@@ -8,93 +8,52 @@
 
 import Foundation
 
+struct Person {
+    var index: Int
+    var value: String
+}
+
 class MatchCouples {
     
-    var fileName: String
-
+    private var people = [Person]()
+    
     init(with fileName: String) {
-        self.fileName = fileName
+        people = fileName.readTextFile()
+            .components(separatedBy: "\n")
+            .filter { !$0.isEmpty }
+            .map { $0.components(separatedBy: " ").sorted().joined() }
+            .enumerated()
+            .map { Person(index: $0.offset, value: $0.element) }
+            .sorted { $0.value < $1.value }
     }
     
-    func timePrint(with text: String) {
-        let now = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss.SSSS" // 날짜 형식 설정
-        let dateNow = dateFormatter.string(from: now)
-        print("\(text) - \(dateNow)\n")
-    }
-    
-    func matchCount(_ person1: [String], and person2: [String]) -> Int {
-        let intersection = Set(person1).intersection(Set(person2))
-        
-        return intersection.count
-    }
-    
-    func matchingCouple(with people: [Person]) -> [String : Int] {
+    func match() {
+        var couples = [String]()
         var beforeCount = 0
-        var couplesDic = [String : Int]()
+
         for i in 0..<people.count {
-            for j in 0..<people.count {
-                guard i != j else { continue }
-                guard couplesDic["\(people[j].index)-\(people[i].index)"] == nil else {
-                    continue
-                }
-                
-                let count = matchCount(people[i].hobbys, and: people[j].hobbys)
-                if count > beforeCount {
-                    beforeCount = count
-                    couplesDic = [String : Int]()
-                    couplesDic["\(people[i].index)-\(people[j].index)"] = count
-                    
-                } else if count == beforeCount {
-                    couplesDic["\(people[i].index)-\(people[j].index)"] = count
+            guard (i + 1) < people.count else { break }
+            let person1 = Array(people[i].value)
+            let person2 = Array(people[i + 1].value)
+            
+            var matchCount = 0
+            for j in 0...9 {
+                if person1[j] == person2[j] {
+                    matchCount += 1
                 }
             }
-        }
-        
-        return couplesDic
-    }
-    
-    func printText(by couples: [String : Int]) -> String {
-        var printText: String = ""
-       
-        for couple in couples {
-            print(couple)
-            if printText.isEmpty {
-                printText = couple.key
-                
-            } else {
-                printText += ", " + couple.key
+
+            if beforeCount < matchCount {
+                print("match: \(matchCount)", people[i], people[i + 1])
+                beforeCount = matchCount
+                couples = [String]()
+                couples.append("\(people[i].index + 1)-\(people[i + 1].index + 1)")
+            } else if beforeCount == matchCount {
+                print("before: \(beforeCount)", people[i], people[i + 1])
+                couples.append("\(people[i].index + 1)-\(people[i + 1].index + 1)")
             }
         }
-        
-        return printText
-    }
-    
-    func startMatching() {
-        let startTime = Date()
-        let fileText = fileName.readTextFile()
-        
-        guard !fileText.isEmpty else {
-            print("\(fileName).txt is empty")
-            return
-        }
-      
-        var textArray = fileText.components(separatedBy: "\n")
-        var people = [Person]()
-        
-        for i in 0..<textArray.count {
-            guard !textArray[i].isEmpty else { continue }
-            let hobbys = textArray[i].components(separatedBy: " ")
-            let person = Person(index: i + 1, hobbys: hobbys)
-            people.append(person)
-        }
-        
-        let couplesDic = matchingCouple(with: people)
-        let text = printText(by: couplesDic)
-        let endTime = Date().timeIntervalSince(startTime)
-        print(text)
-        print("\n실행시간: \(endTime) seconds")
-        self.timePrint(with: "\n종료")
+        Log.verbose(beforeCount)
+        Log.info(couples.joined(separator: ", "))
     }
 }

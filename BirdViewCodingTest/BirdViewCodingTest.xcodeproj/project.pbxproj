@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		33D6BBE621EB793E00E9A402 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6BBE521EB793E00E9A402 /* main.swift */; };
 		33D6BBED21EB796D00E9A402 /* MatchCouples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6BBEC21EB796C00E9A402 /* MatchCouples.swift */; };
-		33D6BBF221EB798C00E9A402 /* testData.txt in Resources */ = {isa = PBXBuildFile; fileRef = 33D6BBF021EB797500E9A402 /* testData.txt */; };
-		33D6BBF321EB799000E9A402 /* 버드뷰_500000x10.txt in Resources */ = {isa = PBXBuildFile; fileRef = 33D6BBEF21EB797500E9A402 /* 버드뷰_500000x10.txt */; };
 		33D6BBF521EB79BF00E9A402 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6BBF421EB79BF00E9A402 /* extensions.swift */; };
-		33D6BBF721EB804400E9A402 /* MatchCouplesByHobbys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D6BBF621EB804400E9A402 /* MatchCouplesByHobbys.swift */; };
+		DB7CC220225F8D2F00D694FA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7CC21F225F8D2F00D694FA /* Logger.swift */; };
+		DB7CC22A225FCAED00D694FA /* 버드뷰_500000x10.txt in Resources */ = {isa = PBXBuildFile; fileRef = DB7CC228225FCAEC00D694FA /* 버드뷰_500000x10.txt */; };
+		DB7CC22B225FCAED00D694FA /* testData.txt in Resources */ = {isa = PBXBuildFile; fileRef = DB7CC229225FCAEC00D694FA /* testData.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,10 +31,10 @@
 		33D6BBE221EB793E00E9A402 /* BirdViewCodingTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BirdViewCodingTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D6BBE521EB793E00E9A402 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		33D6BBEC21EB796C00E9A402 /* MatchCouples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchCouples.swift; sourceTree = "<group>"; };
-		33D6BBEF21EB797500E9A402 /* 버드뷰_500000x10.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "버드뷰_500000x10.txt"; sourceTree = "<group>"; };
-		33D6BBF021EB797500E9A402 /* testData.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testData.txt; sourceTree = "<group>"; };
 		33D6BBF421EB79BF00E9A402 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
-		33D6BBF621EB804400E9A402 /* MatchCouplesByHobbys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCouplesByHobbys.swift; sourceTree = "<group>"; };
+		DB7CC21F225F8D2F00D694FA /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		DB7CC228225FCAEC00D694FA /* 버드뷰_500000x10.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "버드뷰_500000x10.txt"; sourceTree = "<group>"; };
+		DB7CC229225FCAEC00D694FA /* testData.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = testData.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,20 +67,28 @@
 		33D6BBE421EB793E00E9A402 /* BirdViewCodingTest */ = {
 			isa = PBXGroup;
 			children = (
-				33D6BBEE21EB797500E9A402 /* resource */,
+				DB7CC21E225F8D2F00D694FA /* Logger */,
+				DB7CC227225FCAEC00D694FA /* resource */,
 				33D6BBF421EB79BF00E9A402 /* extensions.swift */,
 				33D6BBEC21EB796C00E9A402 /* MatchCouples.swift */,
-				33D6BBF621EB804400E9A402 /* MatchCouplesByHobbys.swift */,
 				33D6BBE521EB793E00E9A402 /* main.swift */,
 			);
 			path = BirdViewCodingTest;
 			sourceTree = "<group>";
 		};
-		33D6BBEE21EB797500E9A402 /* resource */ = {
+		DB7CC21E225F8D2F00D694FA /* Logger */ = {
 			isa = PBXGroup;
 			children = (
-				33D6BBEF21EB797500E9A402 /* 버드뷰_500000x10.txt */,
-				33D6BBF021EB797500E9A402 /* testData.txt */,
+				DB7CC21F225F8D2F00D694FA /* Logger.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		DB7CC227225FCAEC00D694FA /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				DB7CC228225FCAEC00D694FA /* 버드뷰_500000x10.txt */,
+				DB7CC229225FCAEC00D694FA /* testData.txt */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -143,8 +151,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33D6BBF321EB799000E9A402 /* 버드뷰_500000x10.txt in Resources */,
-				33D6BBF221EB798C00E9A402 /* testData.txt in Resources */,
+				DB7CC22B225FCAED00D694FA /* testData.txt in Resources */,
+				DB7CC22A225FCAED00D694FA /* 버드뷰_500000x10.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,10 +163,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB7CC220225F8D2F00D694FA /* Logger.swift in Sources */,
 				33D6BBE621EB793E00E9A402 /* main.swift in Sources */,
 				33D6BBED21EB796D00E9A402 /* MatchCouples.swift in Sources */,
 				33D6BBF521EB79BF00E9A402 /* extensions.swift in Sources */,
-				33D6BBF721EB804400E9A402 /* MatchCouplesByHobbys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
