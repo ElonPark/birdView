@@ -22,9 +22,17 @@ enum Config: String {
 
 func main() {
     Log.info("시작")
-    let file: Config = .debug
+    let file: Config = .release
+    let startTime = Date()
+    
     let couples = MatchCouples(with: file.name())
-    couples.match()
+    print(couples.matchResult())
+    
+    let endTime = Date().timeIntervalSince(startTime)
     Log.info("종료")
+    print("\n실행시간: \(endTime) seconds")
 }
 main()
+
+
+
