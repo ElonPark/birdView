@@ -21,21 +21,13 @@ def string_to_list(str):
     return list()
 
 #일치하는 취미 리스트 리턴
-def get_intersection(hobbys1, hobbys2):
-    intersection = []
-    h1 = {}
-    h2 = {}
-
-    for hobby in hobbys1:
-        h1[hobby] = True
-
-    for hobby in hobbys2:
-        if hobby in h1 and hobby not in h2:
-            intersection.append(hobby)
-            h2[hobby] = True
-
-    return intersection
-
+def get_match_hobbys(hobbys1, hobbys2):
+    hobbys = ""
+    for i in range(10):
+        if hobbys1[i] == hobbys2[i]:
+            hobbys += hobbys1[i]
+    
+    return hobbys
 
 #대용량 파일 처리용
 def matching_couples_with_file(filename):
@@ -60,13 +52,12 @@ def matching_couples_with_file(filename):
                     h1 = string_to_list(hobbys1)
                     h2 = string_to_list(hobbys2)
 
-                    #공통된 취미만 합침
-                    intersection = get_intersection(h1, h2)
-                    count = len(intersection)
+                    matchHobby = get_match_hobbys(h1, h2)
+                    count = len(matchHobby)
 
                     if count > 0:
                         coupleDic["{}-{}".format(i, j)] = True
-                        coupleTuple = (i, j, intersection)
+                        coupleTuple = (i, j, matchHobby)
 
                         if count > max_match_count:
                             max_match_count = count
@@ -100,13 +91,12 @@ def matching_couples(value, count):
             h1 = string_to_list(hobbys1)
             h2 = string_to_list(hobbys2)
 
-            #공통된 취미만 합침
-            intersection = get_intersection(h1, h2)
-            count = len(intersection)
+            matchHobby = get_match_hobbys(h1, h2)
+            count = len(matchHobby)
 
             if count > 0:
                 coupleDic["{}-{}".format(i, j)] = True
-                coupleTuple = (i, j, intersection)
+                coupleTuple = (i, j, matchHobby)
 
                 if count > max_match_count:
                     max_match_count = count
