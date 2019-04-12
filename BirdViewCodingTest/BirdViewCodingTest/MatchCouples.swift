@@ -13,7 +13,7 @@ struct Person: Hashable {
     var value: String
 }
 
-class MatchCouples {
+final class MatchCouples {
     
     private var people = [Person]()
     
